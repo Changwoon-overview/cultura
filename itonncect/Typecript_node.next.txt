@@ -1,0 +1,370 @@
+# Comprehensive Node.js & Next.js Development Rules
+
+## Overview
+You are an expert in modern JavaScript development with comprehensive knowledge of **Node.js**, **Next.js**, **React**, **TypeScript**, and the JavaScript ecosystem including testing frameworks (Jest/Vitest), state management, and deployment best practices.
+
+## Code Style and Structure
+- Write clean, efficient, and well-documented JavaScript/TypeScript code following modern ES2024+ standards
+- Use consistent project structure with clear separation of concerns
+- Implement modular architecture with reusable components and utilities
+- Follow functional programming principles where appropriate
+- Use descriptive naming conventions: camelCase for variables/functions, PascalCase for components/classes
+
+## Project Organization
+
+### Node.js Backend Structure
+```
+my-node-app/
+├── src/
+│   ├── controllers/     # Route handlers
+│   ├── services/        # Business logic
+│   ├── models/          # Data models
+│   ├── middleware/      # Custom middleware
+│   ├── utils/           # Helper functions
+│   ├── config/          # Configuration files
+│   └── types/           # TypeScript definitions
+├── tests/
+├── docs/
+└── scripts/
+```
+
+### Next.js App Structure (App Router)
+```
+my-next-app/
+├── app/
+│   ├── (auth)/          # Route groups
+│   ├── api/             # API routes
+│   ├── globals.css
+│   ├── layout.tsx       # Root layout
+│   └── page.tsx         # Home page
+├── components/
+│   ├── ui/              # Reusable UI components
+│   └── forms/           # Form components
+├── lib/                 # Utility functions
+├── hooks/               # Custom React hooks
+├── types/               # TypeScript definitions
+└── public/              # Static assets
+```
+
+## TypeScript Implementation
+
+### Configuration Best Practices
+- **Strict Mode**: Always enable `"strict": true` in tsconfig.json
+- **Type Safety**: Use explicit type annotations for function parameters and return types
+- **Gradual Migration**: Use `"allowJs": true` for migrating JavaScript projects
+- **Modern Features**: Target ES2022+ and use latest TypeScript features
+
+```typescript
+// Recommended tsconfig.json for Next.js
+{
+  "compilerOptions": {
+    "target": "es2022",
+    "lib": ["dom", "dom.iterable", "es6"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [{ "name": "next" }],
+    "paths": { "@/*": ["./src/*"] }
+  }
+}
+```
+
+### Type Definitions
+- Use interfaces for object shapes and contracts
+- Use type aliases for unions and computed types
+- Implement proper error types with discriminated unions
+- Use generic types for reusable components and functions
+
+## Node.js Best Practices
+
+### Module Organization and Dependencies
+- **Module Loading**: Import all dependencies at the top of files, never inside functions
+- **Dependency Management**: Use exact versions in package.json for production
+- **Environment Configuration**: Use environment variables with proper validation
+- **Security**: Regularly audit dependencies with `npm audit` or `yarn audit`
+
+### Asynchronous Programming
+- **Async/Await**: Prefer async/await over Promises and callbacks
+- **Error Handling**: Always handle Promise rejections and async errors
+- **Event Loop**: Avoid blocking operations; use worker threads for CPU-intensive tasks
+- **Concurrency**: Use proper concurrency patterns for parallel operations
+
+```javascript
+// Good: Non-blocking async operation
+async function processData(data) {
+  try {
+    const result = await heavyAsyncOperation(data);
+    return result;
+  } catch (error) {
+    logger.error('Processing failed:', error);
+    throw new AppError('Processing failed', 500);
+  }
+}
+```
+
+### Security Implementation
+- **Input Validation**: Validate all user inputs using libraries like Joi or Zod
+- **Authentication**: Implement JWT with proper token rotation and secure storage
+- **Rate Limiting**: Use express-rate-limit or similar to prevent abuse
+- **HTTPS**: Always use HTTPS in production with proper SSL/TLS configuration
+- **Environment Variables**: Never commit secrets; use services like AWS Secrets Manager
+
+### Performance Optimization
+- **Caching**: Implement Redis caching for frequently accessed data
+- **Database**: Use connection pooling and optimize queries with proper indexing
+- **Monitoring**: Use APM tools and structured logging with correlation IDs
+- **Memory Management**: Monitor memory usage and prevent memory leaks
+
+## Next.js Best Practices
+
+### App Router and Server Components
+- **Default to Server Components**: Use Server Components by default, opt into Client Components only when needed
+- **File-based Routing**: Leverage the App Router with proper page, layout, and loading components
+- **Server Actions**: Use Server Actions for form submissions and data mutations
+- **Streaming**: Implement streaming and Suspense for better perceived performance
+
+```typescript
+// Server Component (default)
+async function ProductList() {
+  const products = await getProducts(); // Server-side data fetching
+  return (
+    <div>
+      {products.map(product => (
+        <ProductCard key={product.id} product={product} />
+      ))}
+    </div>
+  );
+}
+
+// Client Component (when needed)
+'use client';
+import { useState } from 'react';
+
+export function InteractiveButton() {
+  const [count, setCount] = useState(0);
+  return <button onClick={() => setCount(count + 1)}>Count: {count}</button>;
+}
+```
+
+### Performance and Optimization
+- **Code Splitting**: Use dynamic imports and React.lazy for code splitting
+- **Image Optimization**: Always use Next.js Image component with proper sizing
+- **Font Optimization**: Use next/font for self-hosted fonts with display: 'swap'
+- **Bundle Analysis**: Regularly analyze bundle size with @next/bundle-analyzer
+
+### Data Fetching and Caching
+- **Server-side Fetching**: Use async/await in Server Components for data fetching
+- **Caching Strategy**: Implement proper caching with revalidation strategies
+- **Error Boundaries**: Use error.tsx files for error handling
+- **Loading States**: Implement loading.tsx for better UX
+
+### SEO and Metadata
+- **Metadata API**: Use the new Metadata API for SEO optimization
+- **Structured Data**: Implement proper schema.org markup
+- **Sitemap**: Generate dynamic sitemaps for better crawling
+- **Performance**: Optimize Core Web Vitals and lighthouse scores
+
+## State Management
+
+### Client-side State
+- **Built-in Hooks**: Use useState and useReducer for local component state
+- **Zustand**: Prefer Zustand for global state management (lightweight and TypeScript-friendly)
+- **Context**: Use React Context sparingly, mainly for theme or auth state
+- **Server State**: Use TanStack Query (React Query) for server state management
+
+```typescript
+// Zustand store example
+import { create } from 'zustand';
+
+interface UserStore {
+  user: User | null;
+  setUser: (user: User) => void;
+  logout: () => void;
+}
+
+export const useUserStore = create<UserStore>((set) => ({
+  user: null,
+  setUser: (user) => set({ user }),
+  logout: () => set({ user: null }),
+}));
+```
+
+### Form Handling
+- **React Hook Form**: Use react-hook-form with Zod for form validation
+- **Server Actions**: Leverage Next.js Server Actions for form submissions
+- **Type Safety**: Ensure end-to-end type safety from form to API
+
+## Testing Strategy
+
+### Testing Framework Selection
+- **Vitest**: Prefer Vitest for new projects (faster, better DX with Vite-based projects)
+- **Jest**: Use Jest for existing projects or when extensive ecosystem support is needed
+- **Testing Library**: Use React Testing Library for component testing
+
+### Test Types and Organization
+- **Unit Tests**: Test individual functions and components in isolation
+- **Integration Tests**: Test component interactions and API endpoints
+- **E2E Tests**: Use Playwright or Cypress for end-to-end testing
+- **Snapshot Tests**: Use sparingly, mainly for component rendering consistency
+
+```typescript
+// Component test example with Vitest
+import { render, screen } from '@testing-library/react';
+import { expect, test } from 'vitest';
+import { UserProfile } from './UserProfile';
+
+test('renders user profile with name', () => {
+  const user = { id: 1, name: 'John Doe', email: 'john@example.com' };
+  render(<UserProfile user={user} />);
+  
+  expect(screen.getByText('John Doe')).toBeInTheDocument();
+  expect(screen.getByText('john@example.com')).toBeInTheDocument();
+});
+```
+
+### Mocking and Test Utilities
+- **Module Mocking**: Use vi.mock (Vitest) or jest.mock for external dependencies
+- **API Mocking**: Use MSW (Mock Service Worker) for API mocking
+- **Test Data**: Create factories for generating test data consistently
+- **Type Safety**: Ensure mocks are type-safe to prevent runtime errors
+
+## Database and ORM
+
+### Database Selection and Setup
+- **PostgreSQL**: Preferred for complex applications with ACID requirements
+- **MongoDB**: Use for document-based data with flexible schemas
+- **SQLite**: Good for development and small applications
+- **Redis**: Essential for caching and session storage
+
+### ORM and Query Builders
+- **Drizzle ORM**: Preferred for type-safe SQL with excellent TypeScript support
+- **Prisma**: Good alternative with powerful schema management and migrations
+- **Database Migrations**: Always use migrations for schema changes
+- **Query Optimization**: Implement proper indexing and query optimization
+
+## Authentication and Authorization
+
+### Authentication Strategies
+- **NextAuth.js**: Use for OAuth providers and session management
+- **JWT**: Implement JWT with proper secret rotation for API authentication
+- **Session Management**: Use secure, httpOnly cookies for session storage
+- **2FA**: Implement two-factor authentication for sensitive applications
+
+### Authorization Patterns
+- **RBAC**: Implement role-based access control for complex permissions
+- **Route Protection**: Use middleware for protecting API routes and pages
+- **Client-side Guards**: Implement route guards in Next.js layouts
+- **API Security**: Validate permissions on every API endpoint
+
+## Deployment and DevOps
+
+### Environment Management
+- **Environment Variables**: Use different .env files for different environments
+- **Configuration Validation**: Validate environment variables at startup
+- **Secrets Management**: Use cloud-based secret management services
+- **Environment Parity**: Maintain consistency across dev, staging, and production
+
+### Containerization and Deployment
+- **Docker**: Use multi-stage builds for optimized production images
+- **Container Security**: Scan images for vulnerabilities and use minimal base images
+- **CI/CD**: Implement automated testing and deployment pipelines
+- **Monitoring**: Set up proper logging, metrics, and alerting
+
+```dockerfile
+# Multi-stage Docker build example
+FROM node:18-alpine AS dependencies
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production
+
+FROM node:18-alpine AS build
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+FROM node:18-alpine AS runtime
+WORKDIR /app
+COPY --from=dependencies /app/node_modules ./node_modules
+COPY --from=build /app/.next ./.next
+COPY --from=build /app/public ./public
+COPY --from=build /app/package.json ./package.json
+
+EXPOSE 3000
+CMD ["npm", "start"]
+```
+
+### Performance Monitoring
+- **APM Tools**: Use Application Performance Monitoring tools
+- **Error Tracking**: Implement error tracking with services like Sentry
+- **Analytics**: Track user behavior and Core Web Vitals
+- **Logging**: Use structured logging with proper log levels
+
+## Code Quality and Development Workflow
+
+### Linting and Formatting
+- **ESLint**: Use comprehensive ESLint configuration with TypeScript support
+- **Prettier**: Ensure consistent code formatting across the team
+- **Husky**: Set up pre-commit hooks for linting and testing
+- **EditorConfig**: Maintain consistent editor settings
+
+### Documentation and Comments
+- **TSDoc**: Use TSDoc comments for functions and components
+- **README**: Maintain comprehensive project documentation
+- **API Documentation**: Use tools like OpenAPI/Swagger for API documentation
+- **Code Comments**: Write meaningful comments explaining why, not what
+
+### Version Control and Collaboration
+- **Git Workflow**: Use conventional commits and semantic versioning
+- **Branch Strategy**: Implement GitFlow or GitHub Flow based on team size
+- **Code Reviews**: Require peer reviews for all changes
+- **Issue Tracking**: Link commits to issues for better traceability
+
+## Emerging Trends and Future Considerations
+
+### 2025 Trends to Watch
+- **React Server Components**: Master RSC for better performance and DX
+- **Edge Computing**: Leverage Edge Functions for global performance
+- **AI Integration**: Prepare for AI-powered development tools and features
+- **WebAssembly**: Consider WASM for performance-critical operations
+
+### Framework Evolution
+- **Next.js**: Stay updated with App Router improvements and new features
+- **React**: Adopt React 19 features and concurrent rendering patterns
+- **TypeScript**: Use latest TypeScript features for better type safety
+- **Tooling**: Evaluate new tools like Biome, Turbo, and Bun for better DX
+
+## Security Checklist
+
+### Application Security
+- [ ] Input validation on all user inputs
+- [ ] SQL injection prevention with parameterized queries
+- [ ] XSS prevention with proper output encoding
+- [ ] CSRF protection with tokens
+- [ ] Rate limiting on API endpoints
+- [ ] Secure headers configuration
+- [ ] Dependency vulnerability scanning
+- [ ] Environment variable protection
+- [ ] Proper error handling without information leakage
+- [ ] Authentication and authorization implementation
+
+### Infrastructure Security
+- [ ] HTTPS enforcement
+- [ ] Security headers (HSTS, CSP, etc.)
+- [ ] Regular security updates
+- [ ] Proper firewall configuration
+- [ ] Secure secret management
+- [ ] Container security scanning
+- [ ] Access logging and monitoring
+- [ ] Backup and disaster recovery planning
+
+Remember: Security, performance, and maintainability should be considered from the beginning of any project, not as an afterthought. Always prioritize user experience and developer experience equally.

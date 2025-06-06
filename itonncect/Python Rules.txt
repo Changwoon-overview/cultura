@@ -1,0 +1,63 @@
+Key Principles
+ - Write concise, technical Python code adhering to PEP 8 style guidelines.
+ - Use descriptive variable names (e.g., is_encrypted, has_valid_signature) and lowercase with underscores for files/directories (e.g., scanners/port_scanner.py).
+ - Favor functional programming for data pipelines and declarative logic; use object-oriented programming for deep learning models and Django components.
+ - Modularize code into reusable components (e.g., scanners/, models/, Django apps).
+ - Follow the Receive an Object, Return an Object (RORO) pattern for tool and API interfaces.
+ - Use dependency injection for shared resources (e.g., network sessions, database connections).
+ - Implement configuration via YAML or environment variables for settings and secrets.
+ - Prioritize security, performance, and measurable metrics (e.g., scan time, query latency).
+ - Automate testing with pytest or pytest-asyncio, mocking external dependencies.
+ - Use version control (git) for code and configuration tracking.
+
+Python Programming
+ - Use def for CPU-bound functions; async def for I/O-bound operations (e.g., network requests).
+ - Add type hints to all function signatures; validate inputs with Pydantic v2 for structured data.
+ - Sanitize external inputs to prevent injection attacks; avoid unsanitized shell commands.
+ - Implement structured JSON logging for monitoring and debugging.
+ - Use early returns (guard clauses) for invalid inputs to avoid nested conditionals; keep the "happy path" last.
+ - Raise custom exceptions (e.g., InvalidTargetError) with user-friendly messages.
+ - Optimize performance with asyncio, connection pooling, and batch processing.
+
+Cybersecurity Tool Development << 보안 도구 아닐 경우 삭제 필요. >>
+ - Structure: Organize into scanners/ (port, vulnerability),enumerators/ (DNS, SMB), attackers/ (brute-forcers), reporting/ (JSON, console), utils/ (crypto, network), types/ (Pydantic models).
+ - Dependencies: Use cryptography, scapy, python-nmap, paramiko/asyncssh, aiohttp/httpx, and PyYAML.
+ - Security: Enforce secure defaults (TLSv1.2+, strong ciphers), rate-limiting for scans, and secure secret storage.
+ - Interfaces: Provide CLI and RESTful APIs using RORO; use middleware/decorators for logging and metrics.
+ - Performance: Cache DNS/vulnerability queries, batch large target lists, and use async I/O.
+
+ Deep Learning (Transformers, Diffusion Models, LLMs) <<< 딥러닝 관련이 아닐 경우, 삭제 필요 >>>
+ - Dependencies: Use torch, transformers, diffusers, gradio, numpy, tqdm, and tensorboard/wandb.
+ - Models: Define custom nn.Module classes for architectures; use proper weight initialization and normalization.
+ - Training: Use DataLoader for data pipelines, mixed precision (torch.cuda.amp), and gradient accumulation. Implement early stopping, learning rate scheduling, and gradient clipping.
+ - Transformers: Use transformers for pre-trained models; implement LoRA/P-tuning for efficient fine-tuning.
+ - Diffusion: Use diffusers for forward/reverse processes with appropriate noise schedulers.
+ - Gradio: Build interactive demos with input validation and error handling.
+ - Performance: Leverage DataParallel/DistributedDataParallel for multi-GPU training; profile bottlenecks.
+
+Django Web Applications
+ - Dependencies: Use Django, Django REST Framework, Celery, Redis, and PostgreSQL/MySQL.
+ - Practices: Use class-based views (CBVs) for complex logic, function-based views (FBVs) for simple tasks. Leverage Django ORM with select_related/prefetch_related for query optimization.
+ - Security: Apply CSRF protection, SQL injection prevention, and XSS mitigation.
+ - Performance: Use caching (Redis/Memcached), async views, and Celery for long-running tasks.
+ - Structure: Follow MVT pattern; keep business logic in models/forms, views lightweight.
+ - Testing: Use unittest or pytest-django for robust testing.
+
+Error Handling and Validation
+ - Validate inputs at function/view entry points using Pydantic or Django forms.
+ - Use try-except for error-prone operations (e.g., network, data loading).
+ - Log errors with structured context (module, function, parameters).
+ - Map exceptions to user-friendly CLI/API messages.
+
+Performance Optimization
+ - Use asyncio, connection pooling, and batching for high-throughput tasks.
+ - Cache frequently accessed data (DNS, querysets, model outputs).
+ - Lazy-load heavy modules (e.g., exploit DBs, large models).
+ - Profile and optimize data loading, preprocessing, and I/O bottlenecks.
+
+Key Conventions
+ - Define problems and analyze datasets/scopes upfront.
+ - Use modular structures for reusability
+ - Implement experiment tracking (TensorBoard/wandb) and checkpointing.
+ - Prioritize security (sanitization, encryption) and performance (query optimization, async I/O).
+ - Refer to PyTorch, Transformers, Diffusers, Gradio, Django, OWASP, and NIST SP 800-115 documentation.

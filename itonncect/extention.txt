@@ -1,0 +1,39 @@
+PHP
+ - PHP
+ - PHP Intelephense
+ - PHP Debug
+ - PHP CS Fixer
+ - GitLens
+ - PHP Formatter
+
+Python
+ - Python
+ - Pylance
+ - Jupyter
+ - Autopep8
+ - Flask-Snippets
+ - Docker
+ - Django
+ - Python Test Explorer
+
+Java
+ - Extension Pack for Java
+ - Spring Boot Extension Pack
+ - Checkstyle for Java
+ - SonalLint
+ - Visual Studio IntelliCode
+
+Javascript
+ - ESLint
+ - Prettier - Code formatter
+ - JavaScript Booster
+ - Code Runner
+ - Path IntelliSense
+ - Next.js Snippets
+ - JavaScript (ES6) code snippets
+
+Next.js
+ - ES7+ React/Redux/React-Native snippets
+ - Next.js snippets
+ - TypeScript Importer
+ - Auto Rename Tag

@@ -1,0 +1,16 @@
+MCP List (✅ 설치 완료)
+ - Task-master-ai MCP ✅
+ - Context7 MCP ✅  
+ - Allpepper-memory-bank MCP ✅
+
+=== 설치 상태 ===
+✅ 모든 MCP 서버가 정상적으로 설치되고 설정되었습니다.
+
+📁 디렉토리:
+- ./tasks (TaskMaster AI용)
+- ./memory-bank (Memory Bank용)
+
+📋 설정 파일:
+- mcp-config.json (3개 서버 등록)
+- package.json (npm 스크립트 추가)
+- README-MCP.md (종합 가이드)

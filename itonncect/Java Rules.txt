@@ -1,0 +1,145 @@
+Java Rules
+
+Code Style and Structure
+
+ - Write clean, efficient, and well-documented Java code following framework-specific best practices
+ - Use consistent package organization (controllers/resources, services, repositories, entities/models, configurations)
+ - Implement RESTful API design patterns for web services
+ - Use descriptive method and variable names following camelCase convention
+ - Ensure high cohesion and low coupling adhering to SOLID principles
+
+Naming Conventions
+
+ - Classes: PascalCase (e.g., UserController, OrderService, UserResource)
+ - Methods/Variables: camelCase (e.g., findUserById, isOrderValid)
+ - Constants: ALL_CAPS (e.g., MAX_RETRY_ATTEMPTS, DEFAULT_PAGE_SIZE)
+
+Java Language Features
+
+Utilize Java 17 or later features where appropriate:
+ - Records for immutable data classes
+ - Sealed classes for controlled inheritance
+ - Pattern matching and switch expressions
+ - Text blocks for multi-line strings
+
+
+
+Framework-Specific Implementation  << 맞는 개발에 골라서 쓸 것 >>
+=======================
+Spring Boot Development
+ - Annotations: @SpringBootApplication, @RestController, @Service, @Repository
+ - Starters: Use Spring Boot starters for quick project setup
+ - Auto-configuration: Leverage Spring Boot's auto-configuration features
+ - Exception Handling: Implement @ControllerAdvice and @ExceptionHandler
+ - Data Access: Spring Data JPA for database operations
+ - Security: Spring Security for authentication and authorization
+ - Testing: @SpringBootTest, @DataJpaTest, MockMvc
+
+Quarkus Development
+ - Annotations: @ApplicationScoped, @Inject, @ConfigProperty
+ - Dev Mode: Leverage Quarkus Dev Mode for faster development cycles
+ - Native Builds: Configure GraalVM native builds using quarkus-maven-plugin
+ - Extensions: Use Quarkus BOM for dependency management
+ - Enterprise APIs: Integrate MicroProfile APIs (Config, Health, Metrics)
+ - Reactive: Use Vert.x for event-driven applications
+ - Testing: @QuarkusTest, @QuarkusTestResource, rest-assured
+
+=======================
+Configuration and Properties
+ - Spring Boot: application.properties or application.yml with @ConfigurationProperties
+ - Quarkus: application.properties or application.yaml with @ConfigProperty
+ - Use environment-specific profiles (dev, test, prod)
+ - Implement type-safe configuration injection
+
+Dependency Injection and IoC
+ - Preferred: Constructor injection over field injection for better testability
+ - Spring: Use Spring's IoC container annotations (@Autowired, @Component)
+ - Quarkus: Use CDI annotations (@Inject, @Named, @Singleton)
+ - Design for clean and testable code architecture
+
+Testing Strategy
+
+Unit Testing: JUnit 5 for both frameworks
+
+Spring Boot:
+ - Integration tests with @SpringBootTest
+ - Web layer testing with MockMvc
+ - Repository testing with @DataJpaTest
+
+Quarkus:
+ - Integration tests with @QuarkusTest
+ - REST endpoint testing with rest-assured
+ - Use in-memory databases or test-containers
+
+
+Performance and Scalability
+
+Caching:
+ - Spring: Spring Cache abstraction
+ - Quarkus: @CacheResult, @CacheInvalidate (MicroProfile extensions)
+
+
+Asynchronous Processing:
+ - Spring: @Async or Spring WebFlux for reactive programming
+ - Quarkus: Vert.x or Mutiny for non-blocking I/O
+
+
+Native Optimization: Use GraalVM native builds (especially in Quarkus)
+Implement proper database indexing and query optimization
+
+Security Implementation
+ - Spring Boot: Spring Security with proper password encoding (BCrypt)
+ - Quarkus: Quarkus Security with extensions (quarkus-oidc, quarkus-smallrye-jwt)
+ - JWT: MicroProfile JWT for token-based security
+ - Configure CORS and security headers appropriately
+ - Implement proper authentication and authorization
+
+Logging and Monitoring
+ Logging: SLF4J with framework-specific configurations
+ - Spring: Logback
+ - Quarkus: Quarkus logging subsystem with JSON logging support
+ - Log Levels: Use appropriate levels (ERROR, WARN, INFO, DEBUG)
+ Monitoring:
+ - Spring: Spring Boot Actuator
+ - Quarkus: MicroProfile Health, Metrics, and OpenTracing
+
+Implement structured logging where possible
+
+ API Documentation
+  - Spring Boot: Springdoc OpenAPI (formerly Swagger)
+  - Quarkus: Quarkus OpenAPI extension (quarkus-smallrye-openapi)
+  - Provide detailed annotations for resources, operations, and schemas
+
+Data Access and ORM
+
+ - Spring Boot: Spring Data JPA with proper entity relationships
+ - Quarkus: Hibernate ORM with Panache for simplified JPA patterns
+ - Implement proper entity relationships and cascading (OneToMany, ManyToOne, etc.)
+ - Use schema migration tools (Flyway or Liquibase)
+
+Build and Deployment
+
+ - Build Tools: Maven or Gradle with framework-specific plugins
+ - Containerization: Multi-stage Docker builds for optimized imagesㄷ
+ - Profiles: Configure proper profiles and environment variables for different targets
+ - Native Images: Optimize for GraalVM native image creation (Quarkus)
+ - Use framework-specific BOM for consistent dependency versions
+
+Best Practices Summary
+
+ - Follow RESTful API design principles (proper HTTP methods and status codes)
+ - Design for microservices architecture when applicable
+ - Implement reactive and asynchronous patterns for efficient resource usage
+ - Ensure fast startup times and minimal memory footprint
+ - Maintain comprehensive test coverage
+ - Use proper error handling and validation
+ - Implement monitoring and observability from the start
+ - Follow security best practices throughout development
+
+Architecture Principles
+
+ - Single Responsibility Principle: Each class should have one reason to change
+ - Open/Closed Principle: Open for extension, closed for modification
+ - Liskov Substitution Principle: Objects should be replaceable with instances of their subtypes
+ - Interface Segregation Principle: Depend on abstractions, not concretions
+ - Dependency Inversion Principle: High-level modules shouldn't depend on low-level modules

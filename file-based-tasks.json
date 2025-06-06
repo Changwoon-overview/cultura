@@ -1,0 +1,371 @@
+{
+  "microTasks": {
+    "description": "파일 단위 마이크로 태스크 분해 (MCP_Rule.md 적용)",
+    "rules": {
+      "granularity": "1 Task = 1 File",
+      "timeEstimate": "15-45분 이내",
+      "complexity": "비개발자가 하나의 집중으로 완료 가능한 수준",
+      "learningFocus": "각 파일의 목적과 역할 명확히 이해"
+    },
+    "tasks": [
+      {
+        "id": "T001",
+        "fileName": "src/types/regions.ts",
+        "title": "한국 지역 데이터 타입 정의 파일 생성",
+        "description": "시/도 및 시/군/구 지역 정보를 위한 TypeScript 타입과 상수 데이터를 정의합니다.",
+        "difficulty": "⭐⭐ (2/5)",
+        "estimatedTime": "30분",
+        "prerequisites": [],
+        "followUpTasks": ["T008"],
+        "learningGoals": [
+          "TypeScript 타입 정의 방법",
+          "상수 데이터 관리 패턴",
+          "지역 데이터 구조 설계"
+        ],
+        "completionCriteria": [
+          "Region 인터페이스 정의 완료",
+          "17개 시/도 데이터 배열 완성",
+          "주요 시/군/구 데이터 포함",
+          "TypeScript 컴파일 오류 없음"
+        ],
+        "priority": "high",
+        "mvpCategory": "core"
+      },
+      {
+        "id": "T002",
+        "fileName": "src/components/Calendar/CalendarWrapper.tsx",
+        "title": "캘린더 래퍼 컴포넌트 생성",
+        "description": "FullCalendar 라이브러리를 감싸는 React 컴포넌트를 생성하여 기본 설정과 이벤트 처리를 담당합니다.",
+        "difficulty": "⭐⭐⭐ (3/5)",
+        "estimatedTime": "45분",
+        "prerequisites": ["T001"],
+        "followUpTasks": ["T003", "T004"],
+        "learningGoals": [
+          "React 컴포넌트 기본 구조",
+          "외부 라이브러리 React 통합",
+          "props 인터페이스 설계"
+        ],
+        "completionCriteria": [
+          "FullCalendar 기본 설정 완료",
+          "월간 뷰 렌더링 성공",
+          "이벤트 props 인터페이스 정의",
+          "기본 스타일링 적용"
+        ],
+        "priority": "high",
+        "mvpCategory": "core"
+      },
+      {
+        "id": "T003",
+        "fileName": "src/components/Calendar/EventCard.tsx",
+        "title": "캘린더 이벤트 카드 컴포넌트 생성",
+        "description": "캘린더에 표시될 개별 행사 정보를 나타내는 카드 컴포넌트를 구현합니다.",
+        "difficulty": "⭐⭐ (2/5)",
+        "estimatedTime": "25분",
+        "prerequisites": ["T002"],
+        "followUpTasks": ["T005"],
+        "learningGoals": [
+          "컴포넌트 props 활용",
+          "조건부 렌더링",
+          "기본 이벤트 핸들링"
+        ],
+        "completionCriteria": [
+          "행사 제목, 시간 표시",
+          "클릭 이벤트 처리",
+          "분야별 색상 구분",
+          "반응형 카드 디자인"
+        ],
+        "priority": "high",
+        "mvpCategory": "core"
+      },
+      {
+        "id": "T004",
+        "fileName": "src/components/Calendar/CalendarNavigation.tsx",
+        "title": "캘린더 네비게이션 컴포넌트 생성",
+        "description": "월간 캘린더의 이전/다음 월 이동과 오늘 버튼을 포함한 네비게이션 컴포넌트를 구현합니다.",
+        "difficulty": "⭐⭐ (2/5)",
+        "estimatedTime": "20분",
+        "prerequisites": ["T002"],
+        "followUpTasks": ["T006"],
+        "learningGoals": [
+          "상태 관리 기초 (useState)",
+          "이벤트 콜백 처리",
+          "날짜 조작 로직"
+        ],
+        "completionCriteria": [
+          "이전/다음 월 버튼 동작",
+          "현재 월 표시",
+          "오늘 이동 버튼",
+          "키보드 네비게이션 지원"
+        ],
+        "priority": "high",
+        "mvpCategory": "core"
+      },
+      {
+        "id": "T005",
+        "fileName": "src/components/Modal/EventDetailModal.tsx",
+        "title": "행사 상세 정보 모달 컴포넌트 생성",
+        "description": "행사 클릭 시 상세 정보를 표시하는 모달 컴포넌트를 구현합니다.",
+        "difficulty": "⭐⭐⭐ (3/5)",
+        "estimatedTime": "40분",
+        "prerequisites": ["T003"],
+        "followUpTasks": ["T007"],
+        "learningGoals": [
+          "모달 UI 패턴",
+          "포털(Portal) 사용법",
+          "접근성 고려사항"
+        ],
+        "completionCriteria": [
+          "행사 상세 정보 표시",
+          "ESC 키로 닫기",
+          "오버레이 클릭으로 닫기",
+          "포커스 트랩 구현"
+        ],
+        "priority": "high",
+        "mvpCategory": "core"
+      },
+      {
+        "id": "T006",
+        "fileName": "src/hooks/useCalendarEvents.ts",
+        "title": "캘린더 이벤트 관리 커스텀 훅 생성",
+        "description": "API에서 가져온 행사 데이터를 캘린더 이벤트로 변환하고 관리하는 커스텀 훅을 구현합니다.",
+        "difficulty": "⭐⭐⭐⭐ (4/5)",
+        "estimatedTime": "45분",
+        "prerequisites": ["T004"],
+        "followUpTasks": ["T009"],
+        "learningGoals": [
+          "React 커스텀 훅 패턴",
+          "비동기 데이터 처리",
+          "상태 관리 고급 패턴"
+        ],
+        "completionCriteria": [
+          "API 데이터 페칭 로직",
+          "로딩/에러 상태 관리",
+          "캘린더 이벤트 변환",
+          "메모이제이션 최적화"
+        ],
+        "priority": "high",
+        "mvpCategory": "core"
+      },
+      {
+        "id": "T007",
+        "fileName": "src/components/Filters/RegionFilter.tsx",
+        "title": "지역 필터 컴포넌트 생성",
+        "description": "시/도 단위 지역 선택을 위한 드롭다운 필터 컴포넌트를 구현합니다.",
+        "difficulty": "⭐⭐⭐ (3/5)",
+        "estimatedTime": "35분",
+        "prerequisites": ["T005"],
+        "followUpTasks": ["T010"],
+        "learningGoals": [
+          "드롭다운 UI 구현",
+          "필터 상태 관리",
+          "사용자 선호도 저장"
+        ],
+        "completionCriteria": [
+          "지역 목록 드롭다운",
+          "선택된 지역 표시",
+          "로컬 스토리지 저장",
+          "필터 변경 콜백"
+        ],
+        "priority": "high",
+        "mvpCategory": "core"
+      },
+      {
+        "id": "T008",
+        "fileName": "src/utils/dateHelpers.ts",
+        "title": "날짜 유틸리티 함수 파일 생성",
+        "description": "캘린더와 API에서 사용할 날짜 조작 및 형식 변환 유틸리티 함수들을 구현합니다.",
+        "difficulty": "⭐⭐ (2/5)",
+        "estimatedTime": "25분",
+        "prerequisites": ["T001"],
+        "followUpTasks": ["T006"],
+        "learningGoals": [
+          "날짜 조작 로직",
+          "유틸리티 함수 패턴",
+          "타입 안전한 날짜 처리"
+        ],
+        "completionCriteria": [
+          "날짜 형식 변환 함수",
+          "캘린더 범위 계산",
+          "API 날짜 형식 변환",
+          "타임존 처리 로직"
+        ],
+        "priority": "medium",
+        "mvpCategory": "utility"
+      },
+      {
+        "id": "T009",
+        "fileName": "src/app/page.tsx",
+        "title": "메인 페이지 컴포넌트 구현",
+        "description": "모든 컴포넌트를 통합하여 메인 페이지를 구성하는 최상위 페이지 컴포넌트를 구현합니다.",
+        "difficulty": "⭐⭐⭐ (3/5)",
+        "estimatedTime": "35분",
+        "prerequisites": ["T006"],
+        "followUpTasks": ["T011"],
+        "learningGoals": [
+          "컴포넌트 조합 패턴",
+          "레이아웃 구성",
+          "상태 관리 통합"
+        ],
+        "completionCriteria": [
+          "전체 레이아웃 구성",
+          "컴포넌트 간 데이터 흐름",
+          "로딩 상태 처리",
+          "에러 바운더리 적용"
+        ],
+        "priority": "high",
+        "mvpCategory": "integration"
+      },
+      {
+        "id": "T010",
+        "fileName": "src/styles/calendar.css",
+        "title": "캘린더 전용 스타일 파일 생성",
+        "description": "FullCalendar 라이브러리 커스터마이징과 프로젝트 테마에 맞는 캘린더 스타일을 정의합니다.",
+        "difficulty": "⭐⭐ (2/5)",
+        "estimatedTime": "30분",
+        "prerequisites": ["T007"],
+        "followUpTasks": ["T012"],
+        "learningGoals": [
+          "CSS 커스터마이징",
+          "라이브러리 스타일 오버라이드",
+          "반응형 CSS 기초"
+        ],
+        "completionCriteria": [
+          "캘린더 테마 색상 적용",
+          "이벤트 카드 스타일링",
+          "호버/포커스 효과",
+          "모바일 반응형 고려"
+        ],
+        "priority": "medium",
+        "mvpCategory": "styling"
+      },
+      {
+        "id": "T011",
+        "fileName": "src/components/Layout/Header.tsx",
+        "title": "헤더 컴포넌트 생성",
+        "description": "프로젝트 제목, 지역 필터, 기본 네비게이션을 포함한 헤더 컴포넌트를 구현합니다.",
+        "difficulty": "⭐⭐ (2/5)",
+        "estimatedTime": "25분",
+        "prerequisites": ["T009"],
+        "followUpTasks": ["T013"],
+        "learningGoals": [
+          "레이아웃 컴포넌트 패턴",
+          "네비게이션 구조",
+          "반응형 헤더 디자인"
+        ],
+        "completionCriteria": [
+          "프로젝트 로고/제목",
+          "지역 필터 통합",
+          "반응형 햄버거 메뉴",
+          "접근성 네비게이션"
+        ],
+        "priority": "medium",
+        "mvpCategory": "layout"
+      },
+      {
+        "id": "T012",
+        "fileName": "src/components/Loading/LoadingSpinner.tsx",
+        "title": "로딩 스피너 컴포넌트 생성",
+        "description": "API 데이터 로딩 중 표시할 로딩 스피너 컴포넌트를 구현합니다.",
+        "difficulty": "⭐ (1/5)",
+        "estimatedTime": "15분",
+        "prerequisites": ["T010"],
+        "followUpTasks": ["T014"],
+        "learningGoals": [
+          "로딩 상태 UI 패턴",
+          "CSS 애니메이션 기초",
+          "조건부 렌더링"
+        ],
+        "completionCriteria": [
+          "회전 애니메이션 스피너",
+          "로딩 텍스트 표시",
+          "접근성 aria 속성",
+          "다양한 크기 variant"
+        ],
+        "priority": "low",
+        "mvpCategory": "utility"
+      },
+      {
+        "id": "T013",
+        "fileName": "src/components/Error/ErrorBoundary.tsx",
+        "title": "에러 바운더리 컴포넌트 생성",
+        "description": "React 에러를 포착하고 사용자 친화적인 에러 메시지를 표시하는 에러 바운더리를 구현합니다.",
+        "difficulty": "⭐⭐⭐ (3/5)",
+        "estimatedTime": "30분",
+        "prerequisites": ["T011"],
+        "followUpTasks": ["T015"],
+        "learningGoals": [
+          "React 에러 바운더리 패턴",
+          "에러 처리 전략",
+          "사용자 경험 개선"
+        ],
+        "completionCriteria": [
+          "에러 상태 포착",
+          "폴백 UI 렌더링",
+          "에러 정보 로깅",
+          "재시도 버튼 제공"
+        ],
+        "priority": "medium",
+        "mvpCategory": "error-handling"
+      },
+      {
+        "id": "T014",
+        "fileName": "src/app/globals.css",
+        "title": "글로벌 스타일 파일 설정",
+        "description": "Tailwind CSS 설정과 프로젝트 전체에 적용될 글로벌 스타일을 정의합니다.",
+        "difficulty": "⭐⭐ (2/5)",
+        "estimatedTime": "20분",
+        "prerequisites": ["T012"],
+        "followUpTasks": ["T015"],
+        "learningGoals": [
+          "Tailwind CSS 커스터마이징",
+          "CSS 변수 활용",
+          "글로벌 스타일 관리"
+        ],
+        "completionCriteria": [
+          "Tailwind CSS 임포트",
+          "커스텀 색상 팔레트",
+          "타이포그래피 설정",
+          "기본 리셋 스타일"
+        ],
+        "priority": "medium",
+        "mvpCategory": "styling"
+      },
+      {
+        "id": "T015",
+        "fileName": "vercel.json",
+        "title": "Vercel 배포 설정 파일 생성",
+        "description": "Vercel을 통한 배포를 위한 설정 파일을 생성하고 환경변수를 구성합니다.",
+        "difficulty": "⭐⭐ (2/5)",
+        "estimatedTime": "20분",
+        "prerequisites": ["T013", "T014"],
+        "followUpTasks": [],
+        "learningGoals": ["배포 설정 이해", "환경변수 관리", "CI/CD 기초 개념"],
+        "completionCriteria": [
+          "배포 설정 구성",
+          "환경변수 설정 가이드",
+          "빌드 최적화 설정",
+          "도메인 연결 준비"
+        ],
+        "priority": "high",
+        "mvpCategory": "deployment"
+      }
+    ]
+  },
+  "workflowIntegration": {
+    "codeReviewProcess": {
+      "automated": "각 파일 완성 후 자동 코드 리뷰",
+      "learningPoints": "구현한 패턴과 개념 설명",
+      "qualityGates": "TypeScript 컴파일, ESLint, 기능 테스트"
+    },
+    "progressTracking": {
+      "completionCriteria": "각 태스크별 명확한 완료 조건",
+      "rollbackPoints": "파일 단위 되돌림 지점",
+      "dependencies": "파일 간 의존성 명시"
+    },
+    "adaptiveGuidance": {
+      "difficultyAdjustment": "실시간 난이도 평가 및 조절",
+      "explanationDepth": "개발 경험에 따른 설명 깊이 조절",
+      "practicalExamples": "각 개념별 실무 활용 예시 제공"
+    }
+  }
+}

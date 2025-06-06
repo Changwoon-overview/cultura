@@ -1,0 +1,42 @@
+{
+  "projectName": "cursor",
+  "version": "1.0.0",
+  "description": "Next.js 프로젝트 - AI 기반 개발 작업 관리",
+  "workingDirectory": "./",
+  "taskStorage": {
+    "type": "local",
+    "path": "./tasks"
+  },
+  "ai": {
+    "enabled": true,
+    "provider": "claude",
+    "apiKey": "${ANTHROPIC_API_KEY}",
+    "features": {
+      "taskGeneration": true,
+      "priorityManagement": true,
+      "progressTracking": true
+    }
+  },
+  "project": {
+    "type": "nextjs",
+    "framework": "react",
+    "database": "prisma",
+    "features": ["typescript", "tailwindcss", "eslint", "prettier", "jest"]
+  },
+  "workflow": {
+    "defaultBranch": "main",
+    "taskBranches": true,
+    "autoCommit": false
+  },
+  "notifications": {
+    "enabled": true,
+    "channels": ["console"]
+  },
+  "templates": {
+    "defaultTask": {
+      "priority": "medium",
+      "estimatedTime": "1h",
+      "category": "development"
+    }
+  }
+}
