@@ -6,7 +6,7 @@ export class CulturalApiService {
   private axiosInstance: ReturnType<typeof axios.create>;
   private serviceKey: string;
   private baseUrl =
-    'https://apis.data.go.kr/B553457/nopenapi/rest/publicperformancedisplays/period';
+    'https://apis.data.go.kr/B553457/nopenapi/rest/publicperformancedisplays';
 
   constructor(serviceKey: string) {
     this.serviceKey = serviceKey;
@@ -51,30 +51,53 @@ export class CulturalApiService {
         });
       });
 
-      console.log('파싱된 응답 데이터:', parsedData);
+      console.log('파싱된 응답 데이터:', JSON.stringify(parsedData, null, 2));
+
+      // 다양한 XML 응답 구조 처리
+      let responseData = parsedData;
+
+      // SOAP Fault 오류 체크
+      if (parsedData['soapenv:Envelope']?.['soapenv:Body']?.['soapenv:Fault']) {
+        const fault =
+          parsedData['soapenv:Envelope']['soapenv:Body']['soapenv:Fault'];
+        throw new ApiError({
+          code: 'SOAP_FAULT',
+          message: fault.faultstring || 'SOAP 오류가 발생했습니다',
+          details: fault,
+        });
+      }
+
+      // 일반적인 응답 구조에서 response 찾기
+      if (parsedData.response) {
+        responseData = parsedData.response;
+      } else if (parsedData.Response) {
+        responseData = parsedData.Response;
+      }
 
       // API 응답 상태 확인
-      if (parsedData.response?.header?.resultCode !== '00') {
+      const header = responseData.header || responseData.Header;
+      if (header && header.resultCode !== '00') {
         throw new ApiError({
-          code: parsedData.response?.header?.resultCode || 'UNKNOWN_ERROR',
-          message: parsedData.response?.header?.resultMsg || '알 수 없는 오류',
+          code: header.resultCode || 'UNKNOWN_ERROR',
+          message: header.resultMsg || '알 수 없는 오류',
         });
       }
 
       // 데이터가 없는 경우 빈 배열 반환
-      if (!parsedData.response?.body?.items?.item) {
+      const body = responseData.body || responseData.Body;
+      const items = body?.items?.item || body?.Items?.Item;
+
+      if (!items) {
         console.log('조회된 데이터가 없습니다.');
         return [];
       }
 
       // item이 배열이 아닌 경우 배열로 변환
-      const items = Array.isArray(parsedData.response.body.items.item)
-        ? parsedData.response.body.items.item
-        : [parsedData.response.body.items.item];
+      const itemsArray = Array.isArray(items) ? items : [items];
 
-      console.log(`${items.length}개의 문화행사 데이터를 조회했습니다.`);
+      console.log(`${itemsArray.length}개의 문화행사 데이터를 조회했습니다.`);
 
-      return items.map(this.normalizeEventData);
+      return itemsArray.map(this.normalizeEventData);
     } catch (error) {
       console.error('문화행사 API 호출 오류:', error);
       if (axios.isAxiosError(error)) {

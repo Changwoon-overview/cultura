@@ -7,7 +7,12 @@ export async function GET() {
     const apiKey =
       process.env.CULTURE_API_KEY || process.env.NEXT_PUBLIC_CULTURE_API_KEY;
 
-    if (!apiKey || apiKey === 'YOUR_CULTURE_API_KEY_HERE') {
+    console.log(
+      '로드된 API 키:',
+      apiKey ? `${apiKey.substring(0, 20)}...` : 'undefined'
+    );
+
+    if (!apiKey || apiKey === 'your_culture_api_key_here') {
       return NextResponse.json(
         {
           error: 'API 키가 설정되지 않았습니다.',
